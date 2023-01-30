@@ -1,0 +1,161 @@
+---
+sidebar: sidebar 
+permalink: trident-use/worker-node-prep.html 
+keywords: storage class, manage storage class, storage classes, kubernetes storage classes, worker node, nfs, iscsi, kubernetes clusters 
+summary: Kubernetes叢集中的所有工作節點都必須能夠掛載您已為Pod配置的磁碟區。如果您使用的是其中一個後端的ONTAP-NAS、ONTAP-NAS-節約、ONTAP-NAS-Flexgroup驅動程式、則您的工作節點需要NFS工具。否則他們需要iSCSI工具。 
+---
+= 準備工作節點
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+Kubernetes叢集中的所有工作節點都必須能夠掛載您已為Pod配置的磁碟區。如果您使用的是 `ontap-nas`、 `ontap-nas-economy`或 `ontap-nas-flexgroup` 您的其中一個後端的驅動程式、您的工作節點需要NFS工具。否則他們需要iSCSI工具。
+
+最新版本的RedHat CoreOS預設會同時安裝NFS和iSCSI。
+
+
+WARNING: 安裝NFS或iSCSI工具之後、您應該一律重新啟動工作節點、否則將磁碟區附加至容器可能會失敗。
+
+
+
+== 節點服務探索
+
+從22.07年開始、Astra Trident會嘗試自動偵測節點是否能夠執行iSCSI或NFS服務。Astra Trident會為節點建立事件、以識別發現的服務。您可以使用下列命令來檢閱這些事件：
+
+[listing]
+----
+kubectl get event -A --field-selector involvedObject.name=<Kubernetes node name>
+----
+Trident也會識別Trident節點CR上為每個節點啟用的服務。若要檢視探索到的服務、請使用命令：
+
+[listing]
+----
+tridentctl get node -o wide -n <Trident namespace>
+----
+
+NOTE: 節點服務探索可識別探索到的服務、但無法保證服務已正確設定。相反地、沒有探索到的服務並不保證磁碟區掛載會失敗。
+
+
+
+== NFS磁碟區
+
+[cols="3*"]
+|===
+| 傳輸協定 | 作業系統 | 命令 
+
+
+| NFS  a| 
+RHEL/CentOS 7.
+ a| 
+`sudo yum install -y nfs-utils`
+
+
+
+| NFS  a| 
+Ubuntu
+ a| 
+`sudo apt-get install -y nfs-common`
+
+|===
+
+NOTE: 您應確保NFS服務在開機期間啟動。
+
+
+
+== iSCSI磁碟區
+
+使用iSCSI磁碟區時、請考量下列事項：
+
+* Kubernetes叢集中的每個節點都必須具有唯一的IQN。*這是必要的先決條件*。
+* 若搭配使用RMCOS 4.5或更新版本、或其他與RHEL相容的Linux套裝作業系統 `solidfire-san` 驅動程式和元素OS 12.5或更早版本、請確定CHAP驗證演算法已在中設定為MD5 `/etc/iscsi/iscsid.conf`。元素12.7提供安全的FIPS相容CHAP演算法SHA1、SHA-256和SHA3-256。
++
+[listing]
+----
+sudo sed -i 's/^\(node.session.auth.chap_algs\).*/\1 = MD5/' /etc/iscsi/iscsid.conf
+----
+* 使用執行RHEL/RedHat CoreOS搭配iSCSI PV的工作節點時、請務必指定 `discard` StorageClass中的掛載選項、以執行即時空間回收。請參閱 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_file_systems/discarding-unused-blocks_managing-file-systems["RedHat的文件"^]。
+
+
+[cols="3*"]
+|===
+| 傳輸協定 | 作業系統 | 命令 
+
+
+| iSCSI  a| 
+RHEL/CentOS
+ a| 
+. 安裝下列系統套件：
++
+`sudo yum install -y lsscsi iscsi-initiator-utils sg3_utils device-mapper-multipath`
+
+. 檢查iscsite-initier-utils版本是否為6.6.0.874-2.el7或更新版本：
++
+`rpm -q iscsi-initiator-utils`
+
+. 將掃描設為手動：
++
+`sudo sed -i 's/^\(node.session.scan\).*/\1 = manual/' /etc/iscsi/iscsid.conf`
+
+. 啟用多重路徑：
++
+`sudo mpathconf --enable --with_multipathd y --find_multipaths n`
+
++
+
+NOTE: 確保 `etc/multipath.conf` 包含 `find_multipaths no` 低於 `defaults`。
+
+. 請確保如此 `iscsid` 和 `multipathd` 執行中：
++
+`sudo systemctl enable --now iscsid multipathd`
+
+. 啟用並啟動 `iscsi`：
++
+`sudo systemctl enable --now iscsi`
+
+
+
+
+
+| iSCSI  a| 
+Ubuntu
+ a| 
+. 安裝下列系統套件：
++
+`sudo apt-get install -y open-iscsi lsscsi sg3-utils multipath-tools scsitools`
+
+. 檢查開放式iSCSI版本是否為2.0.874-5ubuntu2．10或更新版本（適用於雙聲網路）或2.0.874-7.1ubuntu6.1或更新版本（適用於焦點）：
++
+`dpkg -l open-iscsi`
+
+. 將掃描設為手動：
++
+`sudo sed -i 's/^\(node.session.scan\).*/\1 = manual/' /etc/iscsi/iscsid.conf`
+
+. 啟用多重路徑：
++
+`sudo tee /etc/multipath.conf <<-'EOF'
+defaults {
+    user_friendly_names yes
+    find_multipaths no
+}
+EOF
+sudo systemctl enable --now multipath-tools.service
+sudo service multipath-tools restart`
+
++
+
+NOTE: 確保 `etc/multipath.conf` 包含 `find_multipaths no` 低於 `defaults`。
+
+. 請確保如此 `open-iscsi` 和 `multipath-tools` 已啟用並執行：
++
+`sudo systemctl status multipath-tools`
+`sudo systemctl enable --now open-iscsi.service`
+`sudo systemctl status open-iscsi`
+
+
+
+|===
+
+NOTE: 若為Ubuntu 18.04、您必須使用探索目標連接埠 `iscsiadm` 開始之前 `open-iscsi` 以啟動iSCSI精靈。您也可以修改 `iscsi` 服務開始 `iscsid` 自動：

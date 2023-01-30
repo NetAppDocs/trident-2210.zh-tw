@@ -1,0 +1,838 @@
+---
+sidebar: sidebar 
+permalink: trident-docker/stor-config.html 
+keywords: deploy, trident, docker, trident for docker, nfs, iscsi, protcol, nfs protocol, iscsi protocol, configure host, host config, storage config, options, variables, ontap, element, cvs on gcp, anf, azure netapp files 
+summary: 請參閱Astra Trident組態的可用組態選項。 
+---
+= 儲存組態選項
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+請參閱Astra Trident組態的可用組態選項。
+
+
+
+== 全域組態選項
+
+這些組態選項適用於所有Astra Trident組態、無論使用何種儲存平台。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 範例 
+
+
+| `version`  a| 
+組態檔版本編號
+ a| 
+1.
+
+
+
+| `storageDriverName`  a| 
+儲存驅動程式名稱
+ a| 
+`ontap-nas`、 `ontap-san`、 `ontap-nas-economy`、
+`ontap-nas-flexgroup`、 `solidfire-san`、 `azure-netapp-files`或 `gcp-cvs`
+
+
+
+| `storagePrefix`  a| 
+Volume名稱的選用首碼。預設值：「netappdvp_」。
+ a| 
+接移_
+
+
+
+| `limitVolumeSize`  a| 
+Volume大小的選擇性限制。預設值：「」（未強制執行）
+ a| 
+10g
+
+|===
+
+TIP: 請勿使用 `storagePrefix` 元素後端的（包括預設值）。依預設 `solidfire-san` 驅動程式將忽略此設定、而不使用前置碼。我們建議使用特定的TenantId進行Docker Volume對應、或是使用Docker版本、驅動程式資訊和原始名稱填入的屬性資料、以便在可能使用任何名稱標示的情況下使用。
+
+您可以使用預設選項、避免在每個建立的Volume上指定這些選項。。 `size` 選項適用於所有控制器類型。如ONTAP 需如何設定預設Volume大小的範例、請參閱「功能區組態」一節。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 範例 
+
+
+| `size`  a| 
+新磁碟區的選用預設大小。預設值：「1G」
+ a| 
+10g
+
+|===
+
+
+== 組態ONTAP
+
+除了上述全域組態值之外、使用ONTAP 時還提供下列頂層選項。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 範例 
+
+
+| `managementLIF`  a| 
+IP位址ONTAP ：您可以指定完整網域名稱（FQDN）。
+ a| 
+10.0.0.1
+
+
+
+| `dataLIF`  a| 
+傳輸協定LIF的IP位址；如果未指定、則會衍生出來。適用於 `ontap-nas` 驅動程式*限*、您可以指定FQDN、在這種情況下、FQDN將用於NFS裝載作業。適用於 `ontap-san` 驅動程式、預設為使用SVM的所有資料LIF IP、並使用iSCSI多重路徑。指定的IP位址 `dataLIF` 適用於 `ontap-san` 驅動程式會強制驅動程式停用多重路徑、並僅使用指定的位址。
+ a| 
+10.0.0.2
+
+
+
+| `svm`  a| 
+要使用的儲存虛擬機器（如果管理LIF是叢集LIF、則為必要）
+ a| 
+SVM_NFS
+
+
+
+| `username`  a| 
+連線至儲存設備的使用者名稱
+ a| 
+vsadmin
+
+
+
+| `password`  a| 
+連線至儲存設備的密碼
+ a| 
+秘密
+
+
+
+| `aggregate`  a| 
+用於資源配置的Aggregate（選用；如果已設定、則必須指派給SVM）。適用於 `ontap-nas-flexgroup` 驅動程式、此選項會被忽略。指派給SVM的所有集合體均可用來配置FlexGroup 一個SVolume。
+ a| 
+Aggr1.
+
+
+
+| `limitAggregateUsage`  a| 
+如果使用率高於此百分比、則可選用、失敗的資源配置
+ a| 
+75%
+
+
+
+| `nfsMountOptions`  a| 
+精細控制NFS掛載選項；預設為「-o nfsver=3」。*僅適用於 `ontap-nas` 和 `ontap-nas-economy` 驅動程式*。 https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["請參閱此處的NFS主機組態資訊"^]。
+ a| 
+-o nfsves=4.
+
+
+
+| `igroupName`  a| 
+外掛程式使用的igroup；預設為「netappdvp」。*僅適用於「ONTAP-San’driver」*。
+ a| 
+myigroup
+
+
+
+| `limitVolumeSize`  a| 
+可申請的Volume大小上限和qtree父Volume大小上限。*適用於 `ontap-nas-economy` 驅動程式、此選項還會限制其所建立的FlexVols的大小*。
+ a| 
+300克
+
+
+
+| `qtreesPerFlexvol`  a| 
+每FlexVol 個邊區最多qtree數、範圍必須為[50、300]、預設值為200。*適用於 `ontap-nas-economy` 驅動程式、此選項可自訂每FlexVol 個版本的qtree數量上限*。
+ a| 
+300
+
+|===
+您可以使用預設選項、避免在您建立的每個Volume上指定這些選項：
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 範例 
+
+
+| `spaceReserve`  a| 
+空間保留模式；「無」（精簡配置）或「Volume」（完整配置）
+ a| 
+無
+
+
+
+| `snapshotPolicy`  a| 
+要使用的Snapshot原則、預設為「無」
+ a| 
+無
+
+
+
+| `snapshotReserve`  a| 
+Snapshot保留百分比、預設值為「」以接受ONTAP的預設值
+ a| 
+10.
+
+
+
+| `splitOnClone`  a| 
+建立複本時從其父實體分割複本、預設為「假」
+ a| 
+錯
+
+
+
+| `encryption`  a| 
+在新磁碟區上啟用NetApp Volume Encryption（NVE）；預設為 `false`。必須在叢集上授權並啟用NVE、才能使用此選項。
+
+如果在後端啟用NAE、則Astra Trident中配置的任何磁碟區都會啟用NAE。
+
+如需詳細資訊、請參閱： link:../trident-reco/security-reco.html["Astra Trident如何與NVE和NAE搭配運作"]。
+ a| 
+是的
+
+
+
+| `unixPermissions`  a| 
+NAS選項適用於已配置的NFS磁碟區、預設為「777」
+ a| 
+777
+
+
+
+| `snapshotDir`  a| 
+NAS選項、可存取 `.snapshot` 目錄、預設為「假」
+ a| 
+是的
+
+
+
+| `exportPolicy`  a| 
+NFS匯出原則使用NAS選項、預設為「預設」
+ a| 
+預設
+
+
+
+| `securityStyle`  a| 
+NAS選項用於存取已配置的NFS Volume、預設為「UNIX」
+ a| 
+混合
+
+
+
+| `fileSystemType`  a| 
+SAN選項可選擇檔案系統類型、預設為「ext4」
+ a| 
+XFS
+
+
+
+| `tieringPolicy`  a| 
+要使用的分層原則、預設為「無」；ONTAP 9.5之前的SVM-DR組態為「純快照」
+ a| 
+無
+
+|===
+
+
+=== 擴充選項
+
+。 `ontap-nas` 和 `ontap-san` 驅動程式會為ONTAP FlexVol 每個Docker Volume建立一個支援功能。支援每個叢集節點最多1000個FlexVols、叢集最多12、000個FlexVols。ONTAP如果您的Docker Volume需求符合該限制 `ontap-nas` 由於FlexVols提供的其他功能（例如Docker Volume精細快照和複製）、因此驅動程式是首選的NAS解決方案。
+
+如果您需要的Docker磁碟區數量超過FlexVol 了《支援範圍 `ontap-nas-economy` 或 `ontap-san-economy` 驅動程式：
+
+。 `ontap-nas-economy` 驅動程式會在ONTAP 自動管理的FlexVols資源池中、將Docker Volume建立為架構樹狀結構。qtree的擴充能力大幅提升、每個叢集節點最多可達100、000個、每個叢集最多可達2、400、000個、而犧牲了部分功能。。 `ontap-nas-economy` 驅動程式不支援Docker Volume精細的快照或複製。
+
+
+NOTE: 。 `ontap-nas-economy` Docker swarm目前不支援驅動程式、因為swarm不會協調跨多個節點建立磁碟區。
+
+。 `ontap-san-economy` 驅動程式會在ONTAP 自動管理的FlexVols共用集區內、將Docker Volume建立為如此FlexVol 一來、每個支援不只侷限於一個LUN、而且能為SAN工作負載提供更好的擴充性。根據儲存陣列的不同、ONTAP 每個叢集最多可支援16384個LUN。由於磁碟區是下方的LUN、因此此驅動程式支援Docker磁碟區精細快照和複製。
+
+選擇 `ontap-nas-flexgroup` 將平行處理能力提升至單一磁碟區、以數十億個檔案擴充至PB範圍。FlexGroups的一些理想使用案例包括AI / ML / DL、Big Data和分析、軟體建置、串流、檔案儲存庫等。Trident在配置FlexGroup 完一套SVM時、會使用指派給SVM的所有集合體。支援Trident也有下列考量：FlexGroup
+
+* 需要ONTAP 9.2版或更新版本。
+* 截至本文撰寫時、FlexGroups僅支援NFS v3。
+* 建議啟用SVM的64位元NFSv3識別碼。
+* 建議FlexGroup 的最小內存區大小為100GB。
+* 不支援FlexGroup 將複製複製用於實體磁碟區。
+
+
+如需適用於FlexGroups的FlexGroups與工作負載相關資訊、請參閱 https://www.netapp.com/pdf.html?item=/media/12385-tr4571pdf.pdf["NetApp FlexGroup 《NetApp》《最佳實務做法與實作指南》"^]。
+
+若要在同一個環境中獲得進階功能和大規模擴充、您可以使用執行多個Docker Volume外掛程式執行個體 `ontap-nas` 和另一個使用 `ontap-nas-economy`。
+
+
+
+=== 範例ONTAP ：功能組態檔
+
+* NFS範例 `ontap-nas` 驅動程式*
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas",
+    "managementLIF": "10.0.0.1",
+    "dataLIF": "10.0.0.2",
+    "svm": "svm_nfs",
+    "username": "vsadmin",
+    "password": "secret",
+    "aggregate": "aggr1",
+    "defaults": {
+      "size": "10G",
+      "spaceReserve": "none",
+      "exportPolicy": "default"
+    }
+}
+----
+* NFS範例 `ontap-nas-flexgroup` 驅動程式*
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas-flexgroup",
+    "managementLIF": "10.0.0.1",
+    "dataLIF": "10.0.0.2",
+    "svm": "svm_nfs",
+    "username": "vsadmin",
+    "password": "secret",
+    "defaults": {
+      "size": "100G",
+      "spaceReserve": "none",
+      "exportPolicy": "default"
+    }
+}
+----
+* NFS範例 `ontap-nas-economy` 驅動程式*
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "ontap-nas-economy",
+    "managementLIF": "10.0.0.1",
+    "dataLIF": "10.0.0.2",
+    "svm": "svm_nfs",
+    "username": "vsadmin",
+    "password": "secret",
+    "aggregate": "aggr1"
+}
+----
+* iSCSI範例 `ontap-san` 驅動程式*
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "ontap-san",
+    "managementLIF": "10.0.0.1",
+    "dataLIF": "10.0.0.3",
+    "svm": "svm_iscsi",
+    "username": "vsadmin",
+    "password": "secret",
+    "aggregate": "aggr1",
+    "igroupName": "myigroup"
+}
+----
+* NFS範例 `ontap-san-economy` 驅動程式*
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "ontap-san-economy",
+    "managementLIF": "10.0.0.1",
+    "dataLIF": "10.0.0.3",
+    "svm": "svm_iscsi_eco",
+    "username": "vsadmin",
+    "password": "secret",
+    "aggregate": "aggr1",
+    "igroupName": "myigroup"
+}
+----
+
+
+== 元件軟體組態
+
+除了全域組態值之外、使用Element軟體（NetApp HCI / SolidFire）時、也可使用這些選項。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 範例 
+
+
+| `Endpoint`  a| 
+\https://<login>:<password>@<mvip>/json-rpc/<element-version>
+ a| 
+\https://admin:admin@192.168.160.3/json-rpc/8.0
+
+
+
+| `SVIP`  a| 
+iSCSI IP位址和連接埠
+ a| 
+10.0.0.7：3260
+
+
+
+| `TenantName`  a| 
+要使用的SolidFireF租戶（如果找不到、請建立）
+ a| 
+「Docker」
+
+
+
+| `InitiatorIFace`  a| 
+將iSCSI流量限制為非預設介面時、請指定介面
+ a| 
+「預設」
+
+
+
+| `Types`  a| 
+QoS規格
+ a| 
+請參閱以下範例
+
+
+
+| `LegacyNamePrefix`  a| 
+升級版Trident安裝的首碼。如果您使用1.3.2版之前的Trident版本、並使用現有磁碟區執行升級、則必須設定此值、才能存取透過Volume名稱方法對應的舊磁碟區。
+ a| 
+「netappdvp-」
+
+|===
+。 `solidfire-san` 驅動程式不支援Docker Swarm。
+
+
+
+=== 元素軟體組態檔範例
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "solidfire-san",
+    "Endpoint": "https://admin:admin@192.168.160.3/json-rpc/8.0",
+    "SVIP": "10.0.0.7:3260",
+    "TenantName": "docker",
+    "InitiatorIFace": "default",
+    "Types": [
+        {
+            "Type": "Bronze",
+            "Qos": {
+                "minIOPS": 1000,
+                "maxIOPS": 2000,
+                "burstIOPS": 4000
+            }
+        },
+        {
+            "Type": "Silver",
+            "Qos": {
+                "minIOPS": 4000,
+                "maxIOPS": 6000,
+                "burstIOPS": 8000
+            }
+        },
+        {
+            "Type": "Gold",
+            "Qos": {
+                "minIOPS": 6000,
+                "maxIOPS": 8000,
+                "burstIOPS": 10000
+            }
+        }
+    ]
+}
+----
+
+
+== GCP組態上的資訊（CVS）Cloud Volumes Service
+
+Astra Trident支援預設CVS服務類型為on的磁碟區 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/service-types["GCP"^]。無論CVS服務類型允許的最小值為何、Astra Trident都不支援低於100 GiB的CVS磁碟區。因此、如果要求的磁碟區小於最小大小、Trident會自動建立100 GiB磁碟區。
+
+除了全域組態值、在GCP上使用CVS時、也可使用這些選項。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 範例 
+
+
+| `apiRegion`  a| 
+CVS帳戶區域（必填）。為GCP區域、此後端將在其中配置磁碟區。
+ a| 
+「美國西部2」
+
+
+
+| `projectNumber`  a| 
+GCP專案編號（必填）。您可在GCP入口網站的主畫面中找到。
+ a| 
+「123456789012」
+
+
+
+| `hostProjectNumber`  a| 
+GCP共享VPC主機專案編號（使用共享VPC時需要）
+ a| 
+「098765432109」
+
+
+
+| `apiKey`  a| 
+具有CVS管理員角色的GCP服務帳戶API金鑰（必填）。是GCP服務帳戶的私密金鑰檔（逐字複製到後端組態檔）的JSON-格式內容。服務帳戶必須具有netappcloudVolumes.admin角色。
+ a| 
+（私密金鑰檔案的內容）
+
+
+
+| `secretKey`  a| 
+CVS帳戶秘密金鑰（必填）。可在CVS入口網站的「帳戶設定」>「API存取」中找到。
+ a| 
+「預設」
+
+
+
+| `proxyURL`  a| 
+Proxy URL（如果需要Proxy伺服器才能連線至CVS帳戶）。Proxy伺服器可以是HTTP Proxy或HTTPS Proxy。若為HTTPS Proxy、則會跳過憑證驗證、以允許在Proxy伺服器中使用自我簽署的憑證。*不支援啟用驗證的Proxy伺服器*。
+ a| 
+「http://proxy-server-hostname/”
+
+
+
+| `nfsMountOptions`  a| 
+NFS掛載選項；預設為「-o nfsver=3」
+ a| 
+「nfsves=3、proto=tcp、timeo=600」
+
+
+
+| `serviceLevel`  a| 
+效能等級（標準、高級、極致）、預設為「標準」
+ a| 
+「優質」
+
+
+
+| `network`  a| 
+用於CVS磁碟區的GCP網路、預設為「預設」
+ a| 
+「預設」
+
+|===
+
+NOTE: 如果使用共享VPC網路、則應同時指定兩者 `projectNumber` 和 `hostProjectNumber`。在這種情況下、 `projectNumber` 是服務專案和 `hostProjectNumber` 是主機專案。
+
+在GCP上使用CVS時、可使用這些預設的Volume選項設定。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 範例 
+
+
+| `exportRule`  a| 
+NFS存取清單（位址和/或CIDR子網路）、預設為「0.00.0.0/0」
+ a| 
+「10.0.1.0/24、10.0.2.100」
+
+
+
+| `snapshotDir`  a| 
+控制的可見度 `.snapshot` 目錄
+ a| 
+「假」
+
+
+
+| `snapshotReserve`  a| 
+Snapshot保留百分比、預設值為「」、接受CVS預設值為0
+ a| 
+「10」
+
+
+
+| `size`  a| 
+Volume大小、預設為「100GiB」
+ a| 
+「10T」
+
+|===
+
+
+=== GCP組態檔上的CVS範例
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "gcp-cvs",
+    "projectNumber": "012345678901",
+    "apiRegion": "us-west2",
+    "apiKey": {
+        "type": "service_account",
+        "project_id": "my-gcp-project",
+        "private_key_id": "1234567890123456789012345678901234567890",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nznHczZsrrtHisIsAbOguSaPIKeyAZNchRAGzlzZE4jK3bl/qp8B4Kws8zX5ojY9m\nXsYg6gyxy4zq7OlwWgLwGa==\n-----END PRIVATE KEY-----\n",
+        "client_email": "cloudvolumes-admin-sa@my-gcp-project.iam.gserviceaccount.com",
+        "client_id": "123456789012345678901",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cloudvolumes-admin-sa%40my-gcp-project.iam.gserviceaccount.com"
+    },
+    "proxyURL": "http://proxy-server-hostname/"
+}
+----
+
+
+== 組態Azure NetApp Files
+
+若要設定及使用 https://azure.microsoft.com/en-us/services/netapp/["Azure NetApp Files"^] 後端、您將需要下列項目：
+
+* `subscriptionID` 透過啟用Azure NetApp Files 了支援功能的Azure訂閱
+* `tenantID`、 `clientID`和 `clientSecret` 從 https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal["應用程式註冊"^] 在Azure Active Directory中、具備Azure NetApp Files 充分的權限執行此功能
+* Azure位置、至少包含一個 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["委派的子網路"^]
+
+
+
+TIP: 如果Azure NetApp Files 您是第一次使用或是在新的位置使用、則需要進行一些初始組態設定 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-quickstart-set-up-account-create-volumes?tabs=azure-portal["快速入門指南"^] 將帶您逐步完成。
+
+
+NOTE: Astra Trident 21.04.0及更早版本不支援手動QoS容量資源池。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 預設 
+
+
+| `version`  a| 
+永遠為1
+ a| 
+
+
+
+| `storageDriverName`  a| 
+「azure-NetApp-Files」
+ a| 
+
+
+
+| `backendName`  a| 
+儲存後端的自訂名稱
+ a| 
+驅動程式名稱+「_」+隨機字元
+
+
+
+| `subscriptionID`  a| 
+Azure訂閱的訂閱ID
+ a| 
+
+
+
+| `tenantID`  a| 
+應用程式註冊的租戶ID
+ a| 
+
+
+
+| `clientID`  a| 
+應用程式註冊的用戶端ID
+ a| 
+
+
+
+| `clientSecret`  a| 
+應用程式註冊的用戶端機密
+ a| 
+
+
+
+| `serviceLevel`  a| 
+「標準」、「優質」或「超高」之一
+ a| 
+「」（隨機）
+
+
+
+| `location`  a| 
+Azure位置的名稱將會在中建立新的Volume
+ a| 
+「」（隨機）
+
+
+
+| `virtualNetwork`  a| 
+具有委派子網路的虛擬網路名稱
+ a| 
+「」（隨機）
+
+
+
+| `subnet`  a| 
+委派給的子網路名稱 `Microsoft.Netapp/volumes`
+ a| 
+「」（隨機）
+
+
+
+| `nfsMountOptions`  a| 
+精細控制NFS掛載選項
+ a| 
+「-o nfsves=3」
+
+
+
+| `limitVolumeSize`  a| 
+如果要求的磁碟區大小高於此值、則資源配置失敗
+ a| 
+「」（預設不強制執行）
+
+|===
+
+NOTE: 支援大小不低於100 GB的磁碟區的支援服務。Azure NetApp Files為了讓應用程式更容易部署、Trident會在要求較小的磁碟區時自動建立100 GB磁碟區。
+
+您可以在組態的特定區段中、使用這些選項來控制預設配置每個Volume的方式。
+
+[cols="3*"]
+|===
+| 選項 | 說明 | 預設 
+
+
+| `exportRule`  a| 
+新磁碟區的匯出規則。必須是以逗號分隔的清單、以CIDR表示法列出所有的IPv4位址或IPv4子網路組合。
+ a| 
+「0.00.0.0/0」
+
+
+
+| `snapshotDir`  a| 
+控制的可見度 `.snapshot` 目錄
+ a| 
+「假」
+
+
+
+| `size`  a| 
+新磁碟區的預設大小
+ a| 
+「100公克」
+
+|===
+
+
+=== 範例Azure NetApp Files
+
+*範例1：azure-NetApp-files*的最小後端組態
+
+這是絕對最低的後端組態。有了這項組態、Trident將會探索您在全球各地委派給ANF的所有NetApp帳戶、容量資源池和子網路、並隨機將新磁碟區放在其中一個上。
+
+當您剛開始使用ANF和試用產品時、此組態非常實用。 但實際上、您想要為您所配置的磁碟區提供額外的範圍、以確保它們具有您想要的特性、並最終建立在接近使用該磁碟區之運算的網路上。如需詳細資料、請參閱後續範例。
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "9f87c765-4774-fake-ae98-a721add45451",
+    "tenantID": "68e4f836-edc1-fake-bff9-b2d865ee56cf",
+    "clientID": "dd043f63-bf8e-fake-8076-8de91e5713aa",
+    "clientSecret": "SECRET"
+}
+----
+*範例2：azure-NetApp-files*的單一位置和特定服務層級
+
+此後端組態可將磁碟區放置在Azure的「東向」位置、位於「優質」容量資源池中。Trident會自動探索委派給該位置ANF的所有子網路、並隨機在其中一個子網路上放置新磁碟區。
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "9f87c765-4774-fake-ae98-a721add45451",
+    "tenantID": "68e4f836-edc1-fake-bff9-b2d865ee56cf",
+    "clientID": "dd043f63-bf8e-fake-8076-8de91e5713aa",
+    "clientSecret": "SECRET",
+    "location": "eastus",
+    "serviceLevel": "Premium"
+}
+----
+*範例3：azure-NetApp-files*的進階組態
+
+此後端組態可進一步將磁碟區放置範圍縮小至單一子網路、並修改部分Volume資源配置預設值。
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "9f87c765-4774-fake-ae98-a721add45451",
+    "tenantID": "68e4f836-edc1-fake-bff9-b2d865ee56cf",
+    "clientID": "dd043f63-bf8e-fake-8076-8de91e5713aa",
+    "clientSecret": "SECRET",
+    "location": "eastus",
+    "serviceLevel": "Premium",
+    "virtualNetwork": "my-virtual-network",
+    "subnet": "my-subnet",
+    "nfsMountOptions": "nfsvers=3,proto=tcp,timeo=600",
+    "limitVolumeSize": "500Gi",
+    "defaults": {
+        "exportRule": "10.0.0.0/24,10.0.1.0/24,10.0.2.100",
+        "size": "200Gi"
+    }
+}
+----
+*範例4：使用azure-NetApp-fil等 檔案的虛擬儲存資源池*
+
+此後端組態定義多個 link:../trident-concepts/virtual-storage-pool.html["儲存資源池"^] 在單一檔案中。當您有多個容量集區支援不同的服務層級、而且想要在Kubernetes中建立代表這些層級的儲存類別時、這很有用。
+
+這只是在虛擬儲存資源池及其標籤的威力表面留下一層痕跡。
+
+[listing]
+----
+{
+    "version": 1,
+    "storageDriverName": "azure-netapp-files",
+    "subscriptionID": "9f87c765-4774-fake-ae98-a721add45451",
+    "tenantID": "68e4f836-edc1-fake-bff9-b2d865ee56cf",
+    "clientID": "dd043f63-bf8e-fake-8076-8de91e5713aa",
+    "clientSecret": "SECRET",
+    "nfsMountOptions": "nfsvers=3,proto=tcp,timeo=600",
+    "labels": {
+        "cloud": "azure"
+    },
+    "location": "eastus",
+
+    "storage": [
+        {
+            "labels": {
+                "performance": "gold"
+            },
+            "serviceLevel": "Ultra"
+        },
+        {
+            "labels": {
+                "performance": "silver"
+            },
+            "serviceLevel": "Premium"
+        },
+        {
+            "labels": {
+                "performance": "bronze"
+            },
+            "serviceLevel": "Standard",
+        }
+    ]
+}
+----
