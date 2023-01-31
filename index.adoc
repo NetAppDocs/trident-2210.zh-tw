@@ -1,7 +1,7 @@
 ---
 layout: landing-page 
 sidebar: sidebar 
-permalink: trident-2210.html 
+permalink: index.html 
 summary: 摘要、用於搜尋結果 
 ---
 = Astra Trident 22.10
