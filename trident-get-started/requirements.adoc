@@ -183,79 +183,79 @@ Astra Trident可能需要對儲存系統進行一些變更、才能使用後端�
 
 
 | v1.20.0  a| 
-* NetApp/Trident：22.10.0
-* NetApp/Trident自動支援：22.10
-* k8s.IO/SIG-storage / CSI-置 備程式：v3.3.0
-* k8s.io/sig-storage / csi附加程式：v4.0
-* k8s.io/sig-storage / csi大小調整：v1.6.0
-* k8s.io/sig-storage / csi快照記錄：v3.0.3
-* k8s.io/sig-storage / csi節點驅動程式登錄程式：v2.5
-* NetApp/Trident營運者：22.10.0（選用）
+* Docker 。 IO/NetApp/Trident ： 22.10.0
+* Docker 。 IO/NetApp/Trident 自動支援： 22.10
+* registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
+* registry ． k8s.io/sig-storage / csi － attacher ： v4.0
+* 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
+* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
+* Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
 
 
 
 | 1.21.0版  a| 
-* NetApp/Trident：22.10.0
-* NetApp/Trident自動支援：22.10
-* k8s.IO/SIG-storage / CSI-置 備程式：v3.3.0
-* k8s.io/sig-storage / csi附加程式：v4.0
-* k8s.io/sig-storage / csi大小調整：v1.6.0
-* k8s.io/sig-storage / csi快照記錄：v3.0.3
-* k8s.io/sig-storage / csi節點驅動程式登錄程式：v2.5
-* NetApp/Trident營運者：22.10.0（選用）
+* Docker 。 IO/NetApp/Trident ： 22.10.0
+* Docker 。 IO/NetApp/Trident 自動支援： 22.10
+* registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
+* registry ． k8s.io/sig-storage / csi － attacher ： v4.0
+* 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
+* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
+* Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
 
 
 
 | 1.22.0版  a| 
-* NetApp/Trident：22.10.0
-* NetApp/Trident自動支援：22.10
-* k8s.IO/SIG-storage / CSI-置 備程式：v3.3.0
-* k8s.io/sig-storage / csi附加程式：v4.0
-* k8s.io/sig-storage / csi大小調整：v1.6.0
-* k8s.io/sig-storage / csi快照記錄：v3.0.3
-* k8s.io/sig-storage / csi節點驅動程式登錄程式：v2.5
-* NetApp/Trident營運者：22.10.0（選用）
+* Docker 。 IO/NetApp/Trident ： 22.10.0
+* Docker 。 IO/NetApp/Trident 自動支援： 22.10
+* registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
+* registry ． k8s.io/sig-storage / csi － attacher ： v4.0
+* 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
+* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
+* Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
 
 
 
 | 1.23.0版  a| 
-* NetApp/Trident：22.10.0
-* NetApp/Trident自動支援：22.10
-* k8s.IO/SIG-storage / CSI-置 備程式：v3.3.0
-* k8s.io/sig-storage / csi附加程式：v4.0
-* k8s.io/sig-storage / csi大小調整：v1.6.0
-* k8s.io/sig-storage / csi快照記錄：v3.0.3
-* k8s.io/sig-storage / csi節點驅動程式登錄程式：v2.5
-* NetApp/Trident營運者：22.10.0（選用）
+* Docker 。 IO/NetApp/Trident ： 22.10.0
+* Docker 。 IO/NetApp/Trident 自動支援： 22.10
+* registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
+* registry ． k8s.io/sig-storage / csi － attacher ： v4.0
+* 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
+* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
+* Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
 
 
 
 | 1.24.0版  a| 
-* NetApp/Trident：22.10.0
-* NetApp/Trident自動支援：22.10
-* k8s.IO/SIG-storage / CSI-置 備程式：v3.3.0
-* k8s.io/sig-storage / csi附加程式：v4.0
-* k8s.io/sig-storage / csi大小調整：v1.6.0
-* k8s.io/sig-storage / csi快照記錄：v3.0.3
-* k8s.io/sig-storage / csi節點驅動程式登錄程式：v2.5
-* NetApp/Trident營運者：22.10.0（選用）
+* Docker 。 IO/NetApp/Trident ： 22.10.0
+* Docker 。 IO/NetApp/Trident 自動支援： 22.10
+* registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
+* registry ． k8s.io/sig-storage / csi － attacher ： v4.0
+* 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
+* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
+* Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
 
 
 
 | v1.25.0  a| 
-* NetApp/Trident：22.10.0
-* NetApp/Trident自動支援：22.10
-* k8s.IO/SIG-storage / CSI-置 備程式：v3.3.0
-* k8s.io/sig-storage / csi附加程式：v4.0
-* k8s.io/sig-storage / csi大小調整：v1.6.0
-* k8s.io/sig-storage / csi快照記錄：v3.0.3
-* k8s.io/sig-storage / csi節點驅動程式登錄程式：v2.5
-* NetApp/Trident營運者：22.10.0（選用）
+* Docker 。 IO/NetApp/Trident ： 22.10.0
+* Docker 。 IO/NetApp/Trident 自動支援： 22.10
+* registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
+* registry ． k8s.io/sig-storage / csi － attacher ： v4.0
+* 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
+* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
+* Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
 
 |===
