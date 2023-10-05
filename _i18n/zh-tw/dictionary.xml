@@ -29,7 +29,6 @@
   <block id="87248f7afe198418bdbedd919695631e" category="list-text">您也可以取得每個後端的除錯記錄、方法是加入<block ref="effa2d809c72dcb6cce15a1e0b040e63" prefix=" " category="inline-code"></block> 在後端定義中。例如、包括<block ref="4974488c28ddbbc84e45d213810267be" prefix=" " category="inline-code"></block> 取得Trident記錄中的API呼叫和方法反向。現有的後端可以有<block ref="effa2d809c72dcb6cce15a1e0b040e63" prefix=" " category="inline-code"></block> 設定為<block ref="ad782b779edfd8199198bed41b3e3b6b" prefix=" " category="inline-code"></block>。</block>
   <block id="6cc37a0664d7f97f87d34eadef23dbad" category="list-text">使用RedHat CoreOS時、請務必確認<block ref="3fe4dc8de876aca2c78fa0cd9c6d0b65" prefix=" " category="inline-code"></block> 在工作節點上啟用、預設為啟動。您可以使用OpenShift機器組態或修改點火模板來完成此作業。</block>
   <block id="7450cfde7058dc5e1f7909d0280fd7ae" category="inline-link-macro">Azure NetApp Files</block>
-  <block id="4582245538a41243a95713a7d0c21b64" category="list-text">使用Trident時可能會遇到的常見問題<block ref="4568986ef6397d7c901269fc0e190ede" category="inline-link-rx"></block> 當租戶和用戶端機密來自權限不足的應用程式登錄時。如需Trident需求的完整清單、請參閱 <block ref="c09112d17e34405b7a5c3d246f91583f" category="inline-link-macro-rx"></block> 組態：</block>
   <block id="7f0ecdfa510b31b01d331c2760643b83" category="list-text">如果在將PV安裝至容器時發生問題、請確定<block ref="7a31649dd02ecf0349542b72f9d5ef54" prefix=" " category="inline-code"></block> 已安裝並執行。使用主機作業系統所需的套件管理程式、並檢查是否有<block ref="7a31649dd02ecf0349542b72f9d5ef54" prefix=" " category="inline-code"></block> 正在執行。您可以檢查的狀態<block ref="7a31649dd02ecf0349542b72f9d5ef54" prefix=" " category="inline-code"></block> 執行<block ref="461bc51ac38341d1d2fdae2e84bc6e47" prefix=" " category="inline-code"></block> 或同等產品。</block>
   <block id="78aeadc89feb4cf244398a7d35a0d656" category="list-text">如果Trident後端報告其位於<block ref="26934eb377001f66e37289a5c93fe284" prefix=" " category="inline-code"></block> 狀態儘管以前曾經工作過、但可能是因為變更與後端相關的SVM/admin認證資料所致。使用更新後端資訊<block ref="defd1e55f93269ac9278afc086951ba8" prefix=" " category="inline-code"></block> 或是退回Trident Pod即可解決此問題。</block>
   <block id="f5d517b06fc0b1af5d599776e2f6f1d6" category="inline-link">這篇部落格</block>
@@ -978,7 +977,6 @@
   <block id="abbdd4298bb3e525fd172b2bbe5a451c" category="section-title">我要如何為ONTAP 以NAS配置的Volume設定Unix權限？</block>
   <block id="a535e502931280dfaa539ecd1cbdfc0c" category="paragraph">您可以在後端定義檔中設定參數、以設定Astra Trident所佈建的Volume上的Unix權限。</block>
   <block id="094ef47e6456d60b656401b0f2bbfcbd" category="section-title">如何在ONTAP 配置Volume時、設定一組明確的靜態NFS掛載選項？</block>
-  <block id="84ae0d345d4b749efbbc8103b0770e68" category="paragraph">依預設、Astra Trident不會使用Kubernetes將掛載選項設為任何值。若要在Kubernetes儲存類別中指定掛載選項、請遵循所提供的範例<block ref="cd55c45fce745b7032050d3a7a9ec326" category="inline-link-rx"></block>。</block>
   <block id="ae6bc3659bb0be0a7d9f98a63775b7c2" category="section-title">如何將已配置的磁碟區設定為特定的匯出原則？</block>
   <block id="700a2008fea63d02c24b85f2f75d357e" category="paragraph">若要允許適當的主機存取磁碟區、請使用<block ref="647ce4e5394e2e595e46b4fc50a628e9" prefix=" " category="inline-code"></block> 後端定義檔中設定的參數。</block>
   <block id="9d5813dee71bcbf3d3a03c62354c3e55" category="section-title">如何透過Astra Trident搭配ONTAP 使用才能設定Volume加密？</block>
@@ -1748,7 +1746,6 @@
   <block id="8d66ed6671344ec6017707c38250329c" category="admonition">19.04版及更早版本的所有升級都需要從自己的Astra Trident中繼資料進行移轉<block ref="a226e9fbdfc1c8dd7e7fef4d333f86ed" prefix=" " category="inline-code"></block> 至CRD物件。請務必查看版本文件、瞭解升級的運作方式。</block>
   <block id="33966eba1ed0cde6afda5a97ffaffb09" category="inline-link">安全性內容</block>
   <block id="ceb268093ddd5aa9df1769eda5d1c8cd" category="inline-link">範例輸入</block>
-  <block id="1ca02e26ff81cefae18a0a8d994ca94a" category="admonition">升級時、請務必提供<block ref="f6e7f85d8aee15940665bf722f7afac2" prefix=" " category="inline-code"></block> 在中<block ref="f652904c3bfb48fb25a0a75f485f0ff6" prefix=" " category="inline-code"></block> 由Astra Trident使用。您可以刪除並重新建立<block ref="f652904c3bfb48fb25a0a75f485f0ff6" prefix=" " category="inline-code"></block> 無需中斷既有的磁碟區。這是強制實施的一項**要求<block ref="cafe4c6014d8c45aaac70e49318f1a2a" category="inline-link-rx"></block> 適用於SAN磁碟區。。<block ref="25daec0b57549a6ad43dbc62a9e717ca" category="inline-link-rx"></block> 目錄包含範例、例如<block ref="3429ee01166c85cb486f96c0c39d0367" category="inline-link-rx"></block><block ref="9abb8c7777ddb413820ee07d5d93aa4a" prefix="[" category="inline-code"></block>^]和<block ref="13fed3b986d34b99295dff6b8b392a8b" category="inline-link-rx"></block><block ref="69ae2d9a6d831af7488e53fec053b77e" prefix="[" category="inline-code"></block>^]。如需詳細資訊、請參閱 <block ref="139a59f2208174d2bf825b80dc580275" category="inline-link-macro-rx"></block>。</block>
   <block id="17cfb8bd7f378fa26b63ee73d467cb82" category="section-title">我應該選擇哪種升級途徑？</block>
   <block id="46940159293e259bcf0bb4df75448100" category="paragraph">您可以使用下列其中一種方法來升級：</block>
   <block id="dc1a9a8ad35cc8aa946e0a2e3f959e2b" category="list-text">使用Trident運算子。</block>
@@ -3038,7 +3035,6 @@
   <block id="5fca24470d51aa51b0fb2d0f27c25c68" category="list-text">與<block ref="7d1aaf47144f9eb2fc66e328ddd3bad7" prefix=" " category="inline-code"></block> 設定為<block ref="ed783cfa871a96ff337b1ae9a5f8bfa5" prefix=" " category="inline-code"></block>、永久磁碟區的建立與繫結會延遲、直到排程並建立使用該永久磁碟的Pod為止。如此一來、就能建立磁碟區、以符合拓撲需求所強制執行的排程限制。</block>
   <block id="3bbc2da928dcf77a048cdd745fe7d208" category="admonition">。<block ref="ed783cfa871a96ff337b1ae9a5f8bfa5" prefix=" " category="inline-code"></block> 繫結模式不需要拓撲標籤。這可獨立於「csi拓撲」功能使用。</block>
   <block id="edff21c44983aaa85506a3dfe467c494" category="paragraph">若要使用「csi拓撲」、您需要下列項目：</block>
-  <block id="279d526c0cf636b7292c2cfddc1d9957" category="list-text">執行的Kubernetes叢集 <block ref="54886eff1282d00a4f74bc7c51429511" category="inline-link-macro-rx"></block></block>
   <block id="f9213d77978aabdafac36d2b0a184e56" category="list-text">叢集中的節點應該有標籤來介紹拓撲認知 <block ref="e1ff98cb39abe026da77d207e1fd46de" prefix="(" category="inline-code"></block> 和<block ref="c4d11894a6687c3a84f5daeda7154443" prefix=" " category="inline-code"></block>）。在安裝Astra Trident以識別拓撲之前、這些標籤*應該會出現在叢集*的節點上。</block>
   <block id="0bd58c9826639ac2db106c3b277a7e0f" category="section-title">步驟1：建立可感知拓撲的後端</block>
   <block id="c7d3751a47274aaa616d77a14f2e2722" category="paragraph">Astra Trident儲存後端可根據可用性區域、選擇性地配置磁碟區。每個後端都可隨附選用功能<block ref="1f2a94e142bf020b1f7c6297ec12413f" prefix=" " category="inline-code"></block> 代表必須支援之區域和區域清單的區塊。對於使用此類後端的StorageClass、只有在受支援地區/區域中排程的應用程式要求時、才會建立Volume。</block>
@@ -3438,8 +3434,6 @@
   <block id="8f5cc6430613f1c12f36965050bb7197" category="sidebar">不和</block>
   <block id="d327e8f24b63b83e091dccdc48dd7b1b" category="sidebar">Astra Trident文件</block>
   <block id="93168a8084b3e838d2932c4734bd234e" category="sidebar">舊版</block>
-  <block id="f21f22dde0e0692333a7a28cce456b08" category="sidebar">所有Astra文件</block>
-  <block id="086e6c16e3fe8e13c336612ef636aa02" category="sidebar">Astra Trident</block>
   <block id="f14894e4c400a400c02367258a93029a" category="sidebar">適合Docker的Astra Trident</block>
   <block id="e08bfc79c5202517b3814efd6e82fb2c" category="sidebar">升級或解除安裝Trident</block>
   <block id="63d5049791d9d79d86e9a108b0a999ca" category="sidebar">參考資料</block>
@@ -3469,4 +3463,9 @@
   <block id="dd38f906b37d412de7d1c1dcf4cbf31c" category="paragraph"><block ref="dd38f906b37d412de7d1c1dcf4cbf31c" category="inline-link-macro-rx"></block></block>
   <block id="8acb58cbd50ef1b468a020ee0bd351d3" category="inline-link-macro"><block ref="8acb58cbd50ef1b468a020ee0bd351d3" category="inline-link-rx"></block></block>
   <block id="2352c4e1f4d0024ade0869e00e6243f4" category="paragraph"><block ref="2352c4e1f4d0024ade0869e00e6243f4" category="inline-link-macro-rx"></block></block>
+  <block id="e8fe26bf5b53940e7e52b3f166871cc3" category="admonition">升級時、請務必提供<block ref="f6e7f85d8aee15940665bf722f7afac2" prefix=" " category="inline-code"></block> 在中<block ref="f652904c3bfb48fb25a0a75f485f0ff6" prefix=" " category="inline-code"></block> 由Astra Trident使用。您可以刪除並重新建立<block ref="f652904c3bfb48fb25a0a75f485f0ff6" prefix=" " category="inline-code"></block> 無需中斷既有的磁碟區。這是強制實施的一項**要求<block ref="cafe4c6014d8c45aaac70e49318f1a2a" category="inline-link-rx"></block> 適用於SAN磁碟區。。<block ref="25daec0b57549a6ad43dbc62a9e717ca" category="inline-link-rx"></block> 目錄包含範例、例如<block ref="0ce20df6bd6dcd4e1d745bdf09932b86" category="inline-link-rx"></block><block ref="9abb8c7777ddb413820ee07d5d93aa4a" prefix="[" category="inline-code"></block>^]和<block ref="bab3b119449dc236bcd556fb4b3647ac" category="inline-link-rx"></block><block ref="69ae2d9a6d831af7488e53fec053b77e" prefix="[" category="inline-code"></block>^]。
+如需詳細資訊、請參閱 <block ref="139a59f2208174d2bf825b80dc580275" category="inline-link-macro-rx"></block>。</block>
+  <block id="1dedbfd605df8b562acc8f759a8e9acc" category="list-text">執行的Kubernetes叢集 <block ref="229e1052bb9ecd8cf2680d6f44691174" category="inline-link-macro-rx"></block></block>
+  <block id="daeed8b959c87c723c9a96bfb5a96851" category="list-text">使用Trident時可能會遇到的常見問題<block ref="24a785881ff1cdf191a2239811dc9597" category="inline-link-rx"></block> 當租戶和用戶端機密來自權限不足的應用程式登錄時。如需Trident需求的完整清單、請參閱 <block ref="e08bee233140d24c18d95885ad07d2bb" category="inline-link-macro-rx"></block> 組態：</block>
+  <block id="3e9e53a916f99df7d6286c52e3b7a9d5" category="paragraph">依預設、Astra Trident不會使用Kubernetes將掛載選項設為任何值。若要在Kubernetes儲存類別中指定掛載選項、請遵循所提供的範例<block ref="fe27d7e6fa26e46ae96377664e7dbdff" category="inline-link-rx"></block>。</block>
 </blocks>
