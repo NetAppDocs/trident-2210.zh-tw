@@ -188,7 +188,7 @@ Astra Trident可能需要對儲存系統進行一些變更、才能使用後端�
 * registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
 * registry ． k8s.io/sig-storage / csi － attacher ： v4.0
 * 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
-* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 快照機： v6.1.0
 * 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
 * Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
@@ -201,7 +201,7 @@ Astra Trident可能需要對儲存系統進行一些變更、才能使用後端�
 * registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
 * registry ． k8s.io/sig-storage / csi － attacher ： v4.0
 * 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
-* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 快照機： v6.1.0
 * 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
 * Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
@@ -214,7 +214,7 @@ Astra Trident可能需要對儲存系統進行一些變更、才能使用後端�
 * registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
 * registry ． k8s.io/sig-storage / csi － attacher ： v4.0
 * 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
-* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 快照機： v6.1.0
 * 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
 * Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
@@ -227,7 +227,7 @@ Astra Trident可能需要對儲存系統進行一些變更、才能使用後端�
 * registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
 * registry ． k8s.io/sig-storage / csi － attacher ： v4.0
 * 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
-* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 快照機： v6.1.0
 * 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
 * Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
@@ -240,7 +240,7 @@ Astra Trident可能需要對儲存系統進行一些變更、才能使用後端�
 * registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
 * registry ． k8s.io/sig-storage / csi － attacher ： v4.0
 * 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
-* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 快照機： v6.1.0
 * 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
 * Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 
@@ -253,7 +253,7 @@ Astra Trident可能需要對儲存系統進行一些變更、才能使用後端�
 * registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0
 * registry ． k8s.io/sig-storage / csi － attacher ： v4.0
 * 登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0
-* 登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3
+* 登錄 .k8s.io/SIG-storage / csi 快照機： v6.1.0
 * 登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1
 * Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）
 

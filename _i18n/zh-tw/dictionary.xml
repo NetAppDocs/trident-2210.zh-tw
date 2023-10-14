@@ -3452,7 +3452,6 @@
   <block id="74d7347d2d8b4324553eb6d881988fbd" category="list-text">registry ． k8s.io/SIG-storage / csi 置備程式： v3.3.0</block>
   <block id="e42bb43c53b774cb18202277627ded6a" category="list-text">registry ． k8s.io/sig-storage / csi － attacher ： v4.0</block>
   <block id="b21bbc0cbede5460307bb0a474f8606c" category="list-text">登錄 .k8s.io/SIG-storage / csi 大小調整： v1.0.0</block>
-  <block id="63ecb6130cad9815e1932d6c6dd2fd48" category="list-text">登錄 .k8s.IO/SIG-storage / csi 快照機： v3.0.3</block>
   <block id="730890f7a33619a5f272f2ed9a434ed0" category="list-text">登錄 .k8s.io/SIG-storage / csi 節點驅動程式登錄器： v2.2.1</block>
   <block id="4dfe67785205ed3d7f2cb3ca8eafaa68" category="list-text">Docker 。 IO/NetApp/Trident ： 22.10.0 （選用）</block>
   <block id="52009bb7ee17227f566cd26a02caee56" category="inline-link-macro"><block ref="52009bb7ee17227f566cd26a02caee56" category="inline-link-rx"></block></block>
@@ -3468,4 +3467,5 @@
   <block id="1dedbfd605df8b562acc8f759a8e9acc" category="list-text">執行的Kubernetes叢集 <block ref="229e1052bb9ecd8cf2680d6f44691174" category="inline-link-macro-rx"></block></block>
   <block id="daeed8b959c87c723c9a96bfb5a96851" category="list-text">使用Trident時可能會遇到的常見問題<block ref="24a785881ff1cdf191a2239811dc9597" category="inline-link-rx"></block> 當租戶和用戶端機密來自權限不足的應用程式登錄時。如需Trident需求的完整清單、請參閱 <block ref="e08bee233140d24c18d95885ad07d2bb" category="inline-link-macro-rx"></block> 組態：</block>
   <block id="3e9e53a916f99df7d6286c52e3b7a9d5" category="paragraph">依預設、Astra Trident不會使用Kubernetes將掛載選項設為任何值。若要在Kubernetes儲存類別中指定掛載選項、請遵循所提供的範例<block ref="fe27d7e6fa26e46ae96377664e7dbdff" category="inline-link-rx"></block>。</block>
+  <block id="c60d7bfd38dc514d4e2eaa66c5a0a5fd" category="list-text">登錄 .k8s.io/SIG-storage / csi 快照機： v6.1.0</block>
 </blocks>
